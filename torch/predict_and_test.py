@@ -5,7 +5,7 @@ import torch
 from torchvision.models.detection import fasterrcnn_resnet50_fpn
 unbatch = __import__('train_batches').unbatch
 
-@torch.no_grad
+@torch.no_grad()
 def predict_batch(batch: torch.utils.data.DataLoader,
                   model:fasterrcnn_resnet50_fpn, device:str) -> tuple:
     """

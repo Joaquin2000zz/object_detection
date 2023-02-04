@@ -15,7 +15,7 @@ class DataSet(torch.utils.data.Dataset):
     prepare a dataset used to perform training
     """
 
-    def __init__(self, root: str, labels: dict, transforms: function=None) -> tuple:
+    def __init__(self, root: str, labels: dict, transforms: object=None) -> tuple:
         """
         class constructor:
             - root: name of root folder

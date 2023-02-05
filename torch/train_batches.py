@@ -1,4 +1,3 @@
-import numpy as np
 import torch
 import torchvision
 """
@@ -38,7 +37,7 @@ def train_batch(batch: torch.utils.data.DataLoader,
     optimizer.zero_grad() # sets gradients of all optimized tensors to zero
     looses = model(X, y)
     # adding all looses to call backward() once
-    loss = np.sum([loss for loss in looses.values()])
+    loss = sum([loss for loss in looses.values()])
     loss.backward() # computes backpropagation through gradient descent
     optimizer.step() # reevaluates the model through optimization
     return loss, looses
@@ -64,5 +63,5 @@ def validate_batch(batch: torch.utils.data.DataLoader,
     optimizer.zero_grad() # sets gradients of all optimized tensors to zero
     looses = model(X, y)
     # adding all looses to call backward() once
-    loss = np.sum([loss for loss in looses.values()])
+    loss = sum([loss for loss in looses.values()])
     return loss, looses

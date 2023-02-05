@@ -7,7 +7,7 @@ from torch_snippets import Report
 train_batch = __import__('train_batches').train_batch
 validate_batch = __import__('train_batches').validate_batch
 prepare_loaders = __import__('prepare_loaders').prepare_loaders
-prepare_model = __import__('load_model').prepare_loaders
+prepare_model = __import__('load_model').prepare_model
 
 
 def train_fasterrnn(model:fasterrcnn_resnet50_fpn,
@@ -39,11 +39,10 @@ def train_fasterrnn(model:fasterrcnn_resnet50_fpn,
 
     
     for epoch in range(n_epochs):
-        print(len(train_loader))
         N = len(train_loader)
         for t, batch in enumerate(train_loader):
-            loss, losses = train_batch(batch, device)
-            print(N)
+            loss, losses = train_batch(batch, model,
+                                       optimizer, device)
             # record the current train loss
             pos = epoch + (t + 1) / N
             log.record(pos=pos, trn_loss=loss.item(),
@@ -51,7 +50,8 @@ def train_fasterrnn(model:fasterrcnn_resnet50_fpn,
         if test_loader:
             N = len(test_loader)
             for v, batch in enumerate(test_loader):
-                loss, losses = validate_batch(batch, device)
+                loss, losses = validate_batch(batch, model,
+                                              optimizer, device)
                 # record the current validation loss
                 pos = epoch + (v + 1) / N
                 log.record(pos=pos, trn_loss=loss.item(),

@@ -8,23 +8,28 @@ import torch
 train = __import__('train_model').train
 predict = __import__('predict_and_test').predict
 decode_prediction = __import__('predict_and_test').decode_prediction
+change_ext = __import__('change_ext').change_ext
 
 
 if __name__ == '__main__':
-    device = torch.device('cuda') if torch.cuda.is_aviable() else torch.device('cpu')
 
+    device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
+
+    change_ext(ext='.png')
     labels = ['QR']
-    label_dict = {l:i for l, i in enumerate(labels)}
-    reverse_label_dict = {v:k for k, v in label_dict.values()}
+    label_dict = {l:i for i, l in enumerate(labels)}
+    reverse_label_dict = {v:k for k, v in label_dict.items()}
 
-    log, val_dl, model = train(device=device, labels=labels)
-    images, predictions = predict(val_dl, model, device)
-    boxes, scores, labels = decode_prediction(predictions)
+    log, test_dl, model = train(num_classes=2, device=device, labels=label_dict)
+    images, predictions = predict(model, test_dl, device)
 
+    #for img_index, p in enumerate(predictions):
     img_index = 0
-    fig, ax = plt.subplots(fig_size=[5, 5])
+    print("antes del decode", predictions[0])
+    boxes, scores, labels = decode_prediction(predictions[0])
+    fig, ax = plt.subplots(figsize=[5, 5])
     ax.imshow(images[img_index].permute(1, 2, 0).numpy())
-
+    print("boxes:", boxes, "\nscores:", scores, "\nlabels:", labels)
     for i, b in enumerate(boxes):
         rect = patches.Rectangle(b[:2].astype(int),
                                  (b[2] - b[0]).astype(int),

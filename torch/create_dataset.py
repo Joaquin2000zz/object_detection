@@ -7,7 +7,7 @@ import PIL
 import torch
 import torchvision.transforms.functional as F
 import torchvision.transforms.transforms as T
-xml_to_dict = __import__('get_label').xml_to_dict
+xml_to_dict = __import__('get_labels').xml_to_dict
 
 
 class DataSet(torch.utils.data.Dataset):

@@ -3,9 +3,9 @@ module which contains prepare_loaders function
 """
 import torch
 DataSet = __import__('create_dataset').DataSet
-get_transform = __import__('create_dataset')._get_transform
+get_transform = __import__('create_dataset').get_transform
 
-def prepare_loaders(root: str='./', labels: dict=None,
+def prepare_loaders(root: str='./', labels: dict={},
                     batch_size: int=4, shuffle: bool=True):
     """
     prepares torch.utils.data.DataLoader objects to load our dataset
@@ -20,7 +20,6 @@ def prepare_loaders(root: str='./', labels: dict=None,
     test_ds = DataSet(root, labels, get_transform(train=False)) # test dataset
 
     # randomly shuffle all the data
-    print(len(train_ds), train_ds.__len__())
     indices = torch.randperm(len(train_ds)).tolist()
     # spliting entire data into 80/20 train-test splits
     # spliting train set into 82/20 train-calidation splits
@@ -31,10 +30,10 @@ def prepare_loaders(root: str='./', labels: dict=None,
                                        indices[:int(n * .64)])
     # validation dataset: 16% of the entire data, or 20% of 80%
     val_ds = torch.utils.data.Subset(val_ds,
-                                     indices[int(n * .8)])
+                                     indices[int(n * .64):int(n * .8)])
     # test dataset: 20% of the entire data
     test_ds = torch.utils.data.Subset(test_ds,
-                                      indices[int(n * .8)])
+                                      indices[int(n * .8):])
     def collate_fn(batch):
         """
         collate image-target pairs into a tuple

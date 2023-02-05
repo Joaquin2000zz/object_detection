@@ -2,6 +2,7 @@
 module which contains predict_batch, predict and decode_prediction functions
 """
 import torch
+import torchvision
 from torchvision.models.detection import fasterrcnn_resnet50_fpn
 unbatch = __import__('train_batches').unbatch
 
@@ -43,8 +44,8 @@ def predict(model: fasterrcnn_resnet50_fpn,
     images, predictions = [], []
     for batch in data_loader:
         X, p = predict_batch(batch, model, device)
-        images.append(X)
-        predictions.append(p)
+        images += X
+        predictions += p
     return images, predictions
 
 def decode_prediction(prediction: dict,

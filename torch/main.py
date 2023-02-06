@@ -25,11 +25,9 @@ if __name__ == '__main__':
 
     #for img_index, p in enumerate(predictions):
     img_index = 0
-    print("antes del decode", predictions[0])
     boxes, scores, labels = decode_prediction(predictions[0])
     fig, ax = plt.subplots(figsize=[5, 5])
     ax.imshow(images[img_index].permute(1, 2, 0).numpy())
-    print("boxes:", boxes, "\nscores:", scores, "\nlabels:", labels)
     for i, b in enumerate(boxes):
         rect = patches.Rectangle(b[:2].astype(int),
                                  (b[2] - b[0]).astype(int),

@@ -17,7 +17,7 @@ def train_fasterrnn(model:fasterrcnn_resnet50_fpn,
                     log:Report, keys:list, device:str):
     """
     function which performs the training of
-    - faster residual neural network model
+    - faster region-based neural network model
     - model: FasterRCNN
     - optimizer: torch optimizer used during gradient descent
     - n_epochs: number of epochs during training

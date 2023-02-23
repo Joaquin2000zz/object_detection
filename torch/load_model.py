@@ -7,7 +7,7 @@ from torchvision.models.detection.faster_rcnn import FastRCNNPredictor
 
 def prepare_model(num_classes=2, feature_extraction=True) -> fasterrcnn_resnet50_fpn:
     """
-    prepares a pretrained faster residual convolutional neural network model
+    prepares a pretrained faster region-based convolutional neural network model
     which classify in between a range of 91 classes
     - num_classes: classes needed during our training.
         2 is a binary classificator

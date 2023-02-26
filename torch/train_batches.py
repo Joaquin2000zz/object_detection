@@ -1,8 +1,9 @@
-import torch
-import torchvision
 """
 module which contains train_batch validate_batch and unbatch functions
 """
+import torch
+import torchvision
+
 
 def unbatch(batch: torch.utils.data.DataLoader, device: str) -> tuple:
     """

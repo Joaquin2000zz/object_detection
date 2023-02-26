@@ -37,7 +37,7 @@ def train_fasterrnn(model:fasterrcnn_resnet50_fpn,
                 'loss_rpn_box_reg']
     model.to(device)
 
-    
+
     for epoch in range(n_epochs):
         N = len(train_loader)
         for t, batch in enumerate(train_loader):

@@ -16,6 +16,7 @@ prepare_loaders = __import__('prepare_loaders').prepare_loaders
 
 
 if __name__ == '__main__':
+    os.environ["KMP_DUPLICATE_LIB_OK"] = "TRUE"
     os.chdir('torch')
     device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
 
@@ -44,20 +45,16 @@ if __name__ == '__main__':
     images, predictions = predict(model, test_dl, device)
 
     for img_index, p in enumerate(predictions):
-        print("antes del decode", p, img_index)
         boxes, scores, labels = decode_prediction(p)
-        print('desp del decode')
         fig, ax = plt.subplots(figsize=[5, 5])
-        print('desp del subplot')
         ax.imshow(images[img_index].permute(1, 2, 0).numpy())
-        print("boxes:", boxes, "\nscores:", scores, "\nlabels:", labels)
         for i, b in enumerate(boxes):
             rect = patches.Rectangle(b[:2].astype(int),
                                      (b[2] - b[0]).astype(int),
                                      (b[3] - b[1]).astype(int),
                                      linewidth=1,
                                      edgecolor='r',
-                                     facecolor=None)
+                                     facecolor='none')
             ax.add_patch(rect)
             ax.text(b[0], b[1] - 5,
                     f"{target2label[labels[i]]}: {scores[i]}",

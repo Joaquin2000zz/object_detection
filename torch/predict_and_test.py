@@ -69,7 +69,6 @@ def decode_prediction(prediction: dict,
         boxes = boxes[wanted]
         scores = scores[wanted]
         labels = labels[wanted]
-    
     if nms_iou_threshold:
         wanted = torchvision.ops.nms(boxes=boxes, scores=scores,
                                     iou_threshold=nms_iou_threshold)
